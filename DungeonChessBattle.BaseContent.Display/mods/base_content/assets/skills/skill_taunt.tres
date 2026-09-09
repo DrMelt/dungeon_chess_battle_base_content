@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BaseContentSkillDisplay" format=3 uid="uid://bskldtaunt"]
+
+[ext_resource type="Script" uid="uid://c0682x4piuumr" path="res://mods/base_content/assets/skills/BaseContentSkillDisplay.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://gqx24mimperg" path="res://mods/base_content/assets/skills/taunt/taunt_skill_80x80.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+SkillId = "skill_taunt"
+Icon = ExtResource("2_icon")
+SkillName = "嘲讽"
+SkillDescription = "大幅提升目标敌人对本单位的仇恨"

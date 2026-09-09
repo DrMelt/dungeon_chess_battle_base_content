@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BaseContentUnitSet" format=3 uid="uid://dhb5dtmu5k68k"]
+
+[ext_resource type="Script" uid="uid://dtyylatkqt53w" path="res://mods/base_content/assets/units/BaseContentUnitDisplay.cs" id="1_entry_script"]
+[ext_resource type="Script" uid="uid://tnkmfpv3my3k" path="res://mods/base_content/assets/units/BaseContentUnitSet.cs" id="2_set_script"]
+[ext_resource type="Resource" path="res://mods/base_content/assets/units/unit_white_mage.tres" id="3_white_mage"]
+[ext_resource type="Resource" uid="uid://bniv7eim17emc" path="res://mods/base_content/assets/units/unit_goblin.tres" id="4_goblin"]
+[ext_resource type="Resource" uid="uid://31h6q5ca43wu" path="res://mods/base_content/assets/units/unit_goblin_boss.tres" id="5_goblin_boss"]
+
+[resource]
+script = ExtResource("2_set_script")
+UnitResources = Array[ExtResource("1_entry_script")]([ExtResource("3_white_mage"), ExtResource("4_goblin"), ExtResource("5_goblin_boss")])

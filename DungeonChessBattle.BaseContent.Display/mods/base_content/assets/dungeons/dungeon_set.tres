@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseContentDungeonSet" format=3 uid="uid://bdngset"]
+
+[ext_resource type="Script" uid="uid://dcqjeuync81oo" path="res://mods/base_content/assets/dungeons/BaseContentDungeonDisplay.cs" id="1_entry_script"]
+[ext_resource type="Script" uid="uid://dscot8005qvbn" path="res://mods/base_content/assets/dungeons/BaseContentDungeonSet.cs" id="2_set_script"]
+[ext_resource type="Resource" uid="uid://bdnggoblin" path="res://mods/base_content/assets/dungeons/dungeon_goblin_camp.tres" id="3_goblin_camp"]
+[ext_resource type="Resource" uid="uid://bdngdeepcave" path="res://mods/base_content/assets/dungeons/dungeon_deep_cave.tres" id="4_deep_cave"]
+
+[resource]
+script = ExtResource("2_set_script")
+DungeonResources = Array[ExtResource("1_entry_script")]([ExtResource("3_goblin_camp"), ExtResource("4_deep_cave")])

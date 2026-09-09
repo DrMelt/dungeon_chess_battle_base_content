@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BaseContentSkillDisplay" format=3 uid="uid://bsklrectdam"]
+
+[ext_resource type="Script" uid="uid://c0682x4piuumr" path="res://mods/base_content/assets/skills/BaseContentSkillDisplay.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://5og0mwacrnxm" path="res://mods/base_content/assets/skills/icon_placeholder_80x80.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+SkillId = "skill_rect_range_damage"
+Icon = ExtResource("2_icon")
+SkillName = "矩形范围伤害"
+SkillDescription = "对矩形范围内的敌人造成伤害
+威力：200"
+ApplyEffectSceneId = "apply_effect_rect_range_damage"
+RangeHintSceneId = "range_hint_rect"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BaseContentBuffSet" format=3 uid="uid://bbufset"]
+
+[ext_resource type="Script" uid="uid://jkt8nhvi3mxk" path="res://mods/base_content/assets/buffs/BaseContentBuffDisplay.cs" id="1_entry_script"]
+[ext_resource type="Script" uid="uid://dgu2chpmdq61v" path="res://mods/base_content/assets/buffs/BaseContentBuffSet.cs" id="2_set_script"]
+[ext_resource type="Resource" uid="uid://bbufdotmag" path="res://mods/base_content/assets/buffs/buff_dot_magic.tres" id="3_dot_magic"]
+[ext_resource type="Resource" uid="uid://bbufdotphy" path="res://mods/base_content/assets/buffs/buff_dot_physical.tres" id="4_dot_physical"]
+[ext_resource type="Resource" uid="uid://bbufhote" path="res://mods/base_content/assets/buffs/buff_hot.tres" id="5_hot"]
+
+[resource]
+script = ExtResource("2_set_script")
+BuffResources = Array[ExtResource("1_entry_script")]([ExtResource("3_dot_magic"), ExtResource("4_dot_physical"), ExtResource("5_hot")])

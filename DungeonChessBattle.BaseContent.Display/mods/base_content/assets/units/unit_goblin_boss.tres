@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="BaseContentUnitDisplay" format=3 uid="uid://31h6q5ca43wu"]
+
+[ext_resource type="Script" uid="uid://dtyylatkqt53w" path="res://mods/base_content/assets/units/BaseContentUnitDisplay.cs" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ConfigKey = "GoblinBoss"
+DisplayName = "GoblinBoss"

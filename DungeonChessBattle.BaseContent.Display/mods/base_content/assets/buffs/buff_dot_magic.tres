@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseContentBuffDisplay" format=3 uid="uid://bbufdotmag"]
+
+[ext_resource type="Script" uid="uid://jkt8nhvi3mxk" path="res://mods/base_content/assets/buffs/BaseContentBuffDisplay.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b2r03umvlttxu" path="res://mods/base_content/assets/buffs/dot_magic/dot_magic_buff_48x64.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+BuffTypeId = 1000
+Icon = ExtResource("2_icon")
+BuffName = "持续魔法伤害"

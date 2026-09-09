@@ -1,0 +1,10 @@
+## .NET 构建产物
+bin/
+obj/
+
+## Godot 缓存与中间产物（展示工程/资源工程）
+.godot/
+test_export/
+
+## 打包产物（pack-mod.ps1 重建 code/code_display/assets 全套）
+/mods/

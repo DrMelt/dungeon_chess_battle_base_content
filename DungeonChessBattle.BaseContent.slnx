@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DungeonChessBattle.BaseContent\DungeonChessBattle.BaseContent.csproj" />
+  <Project Path="DungeonChessBattle.BaseContent.Display\DungeonChessBattle.BaseContent.Display.csproj" />
+</Solution>

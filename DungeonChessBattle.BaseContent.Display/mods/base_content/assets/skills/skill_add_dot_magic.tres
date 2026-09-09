@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BaseContentSkillDisplay" format=3 uid="uid://bskldotmag"]
+
+[ext_resource type="Script" uid="uid://c0682x4piuumr" path="res://mods/base_content/assets/skills/BaseContentSkillDisplay.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bxnsmwf4w7rdl" path="res://mods/base_content/assets/skills/dot_magic/dot_magic_skill_80x80.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+SkillId = "skill_add_dot_magic"
+Icon = ExtResource("2_icon")
+SkillName = "持续魔法伤害"
+SkillDescription = "对目标添加持续魔法伤害buff
+威力：10
+持续时间：30秒"

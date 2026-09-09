@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BaseContentSkillDisplay" format=3 uid="uid://bskldcure"]
+
+[ext_resource type="Script" uid="uid://c0682x4piuumr" path="res://mods/base_content/assets/skills/BaseContentSkillDisplay.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://djk68np5mkj3h" path="res://mods/base_content/assets/skills/cure/cure_skill_80x80.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+SkillId = "skill_cure"
+Icon = ExtResource("2_icon")
+SkillName = "治疗"
+SkillDescription = "回复目标体力
+恢复力：500"

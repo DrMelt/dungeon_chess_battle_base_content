@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BaseContentDisplaySet" format=3 uid="uid://bdispset"]
+
+[ext_resource type="Script" uid="uid://qsloh0yjgywp" path="res://mods/base_content/assets/BaseContentDisplaySet.cs" id="0_root_script"]
+[ext_resource type="Script" uid="uid://bmyvr7mfeoysc" path="res://mods/base_content/assets/skills/BaseContentSkillSet.cs" id="1_skill_set_script"]
+[ext_resource type="Script" uid="uid://dgu2chpmdq61v" path="res://mods/base_content/assets/buffs/BaseContentBuffSet.cs" id="2_buff_set_script"]
+[ext_resource type="Script" uid="uid://dscot8005qvbn" path="res://mods/base_content/assets/dungeons/BaseContentDungeonSet.cs" id="3_dungeon_set_script"]
+[ext_resource type="Resource" uid="uid://bsklset" path="res://mods/base_content/assets/skills/skill_set.tres" id="4_skill_set"]
+[ext_resource type="Resource" uid="uid://bbufset" path="res://mods/base_content/assets/buffs/buff_set.tres" id="5_buff_set"]
+[ext_resource type="Resource" uid="uid://bdngset" path="res://mods/base_content/assets/dungeons/dungeon_set.tres" id="6_dungeon_set"]
+[ext_resource type="Script" uid="uid://tnkmfpv3my3k" path="res://mods/base_content/assets/units/BaseContentUnitSet.cs" id="7_unit_set_script"]
+[ext_resource type="Resource" path="res://mods/base_content/assets/units/unit_set.tres" id="8_unit_set"]
+
+[resource]
+script = ExtResource("0_root_script")
+SkillSets = Array[ExtResource("1_skill_set_script")]([ExtResource("4_skill_set")])
+BuffSets = Array[ExtResource("2_buff_set_script")]([ExtResource("5_buff_set")])
+UnitSets = Array[ExtResource("7_unit_set_script")]([ExtResource("8_unit_set")])
+DungeonSets = Array[ExtResource("3_dungeon_set_script")]([ExtResource("6_dungeon_set")])

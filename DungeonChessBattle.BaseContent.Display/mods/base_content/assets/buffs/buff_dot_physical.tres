@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseContentBuffDisplay" format=3 uid="uid://bbufdotphy"]
+
+[ext_resource type="Script" uid="uid://jkt8nhvi3mxk" path="res://mods/base_content/assets/buffs/BaseContentBuffDisplay.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bypltqq87sxwe" path="res://mods/base_content/assets/buffs/buff_placeholder.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+BuffTypeId = 1001
+Icon = ExtResource("2_icon")
+BuffName = "持续物理伤害"

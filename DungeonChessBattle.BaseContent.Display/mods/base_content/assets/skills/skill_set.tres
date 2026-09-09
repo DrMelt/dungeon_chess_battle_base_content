@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BaseContentSkillSet" format=3 uid="uid://bsklset"]
+
+[ext_resource type="Script" uid="uid://c0682x4piuumr" path="res://mods/base_content/assets/skills/BaseContentSkillDisplay.cs" id="1_entry_script"]
+[ext_resource type="Script" uid="uid://bmyvr7mfeoysc" path="res://mods/base_content/assets/skills/BaseContentSkillSet.cs" id="2_set_script"]
+[ext_resource type="Resource" uid="uid://bskldamage" path="res://mods/base_content/assets/skills/skill_magic_damage.tres" id="3_magic_damage"]
+[ext_resource type="Resource" uid="uid://bskldcure" path="res://mods/base_content/assets/skills/skill_cure.tres" id="4_cure"]
+[ext_resource type="Resource" uid="uid://bskldotmag" path="res://mods/base_content/assets/skills/skill_add_dot_magic.tres" id="5_dot_magic"]
+[ext_resource type="Resource" uid="uid://bskldhote" path="res://mods/base_content/assets/skills/skill_add_hot.tres" id="6_hot"]
+[ext_resource type="Resource" uid="uid://bsklrectdam" path="res://mods/base_content/assets/skills/skill_rect_range_damage.tres" id="7_rect_damage"]
+[ext_resource type="Resource" uid="uid://bskldtaunt" path="res://mods/base_content/assets/skills/skill_taunt.tres" id="8_taunt"]
+
+[resource]
+script = ExtResource("2_set_script")
+SkillResources = Array[ExtResource("1_entry_script")]([ExtResource("3_magic_damage"), ExtResource("4_cure"), ExtResource("5_dot_magic"), ExtResource("6_hot"), ExtResource("7_rect_damage"), ExtResource("8_taunt")])

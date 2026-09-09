@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+
+    <Version>0.1.0</Version>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

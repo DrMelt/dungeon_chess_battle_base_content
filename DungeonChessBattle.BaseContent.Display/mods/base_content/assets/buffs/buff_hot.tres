@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseContentBuffDisplay" format=3 uid="uid://bbufhote"]
+
+[ext_resource type="Script" uid="uid://jkt8nhvi3mxk" path="res://mods/base_content/assets/buffs/BaseContentBuffDisplay.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dftul646xhxat" path="res://mods/base_content/assets/buffs/hot/hot_buff_48x64.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+BuffTypeId = 1002
+Icon = ExtResource("2_icon")
+BuffName = "持续治疗"
