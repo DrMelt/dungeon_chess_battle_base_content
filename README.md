@@ -1,2 +1,2 @@
-# dungeon_chess_battle_base_content
+# DungeonChessBattle.BaseContent
 dungeon_chess_battle项目的示例资源
