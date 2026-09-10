@@ -8,11 +8,11 @@ namespace DungeonChessBattle.BaseContent.Display;
 /// </summary>
 [GlobalClass]
 public partial class BaseContentBuffDisplay : Resource {
-    /// <summary>Buff 类型 ID，对应配置表与 SyncBuffData.BuffTypeId。</summary>
+    /// <summary>Buff 键，与数据面 BuffDefinition.BuffTypeId 逐字相同；长度上限 32，超限由宿主注册时拒绝。</summary>
     [Export]
-    public int BuffTypeId {
+    public string BuffTypeId {
         get; set;
-    }
+    } = "";
 
     /// <summary>Buff 图标。</summary>
     [Export]
@@ -29,5 +29,5 @@ public partial class BaseContentBuffDisplay : Resource {
     public string BuffDescription { get; set; } = "";
 
     /// <summary>产出注册用的 Buff 展示数据；Buff 无场景引用，故不需注册表。</summary>
-    public BuffDisplay ToDisplay() => new((ushort)BuffTypeId, BuffName, BuffDescription, Icon);
+    public BuffDisplay ToDisplay() => new(BuffTypeId, BuffName, BuffDescription, Icon);
 }

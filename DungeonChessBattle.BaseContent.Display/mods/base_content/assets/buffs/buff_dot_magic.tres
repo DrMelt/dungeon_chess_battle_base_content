@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("1_script")
-BuffTypeId = 1000
+BuffTypeId = "buff_dot_magic"
 Icon = ExtResource("2_icon")
 BuffName = "持续魔法伤害"

@@ -20,9 +20,9 @@ public static class ContentRegistrar {
     /// <summary>全部内容注册入口。</summary>
     public static void RegisterAll(IModBootstrapContext context) {
         RegisterBehaviors(context);
-        var buffs = RegisterBuffs(context);
-        var skills = RegisterSkills(context, buffs);
-        var units = RegisterUnits(context, skills);
+        Dictionary<string, BuffDefinition> buffs = RegisterBuffs(context);
+        Dictionary<string, SkillDefinition> skills = RegisterSkills(context, buffs);
+        Dictionary<string, UnitConfig> units = RegisterUnits(context, skills);
         RegisterDungeons(context, units);
         context.SetDefaultDungeonKey("goblin_camp");
     }
@@ -44,9 +44,9 @@ public static class ContentRegistrar {
         context.RegisterCampRelation(BehaviorIds.CampRelation.PveBoss, CampRelationsPve);
     }
 
-    private static Dictionary<ushort, BuffDefinition> RegisterBuffs(IModBootstrapContext context) {
+    private static Dictionary<string, BuffDefinition> RegisterBuffs(IModBootstrapContext context) {
         var dotMagic = new DamageOverTimeBuff {
-            BuffTypeId = 1000,
+            BuffTypeId = "buff_dot_magic",
             Duration = 30.0,
             MaxStacks = 1,
             DamageType = DamageType.Magic,
@@ -54,7 +54,7 @@ public static class ContentRegistrar {
             Effect = context.BuffEffect(BehaviorIds.BuffEffect.Dot),
         };
         var dotPhysical = new DamageOverTimeBuff {
-            BuffTypeId = 1001,
+            BuffTypeId = "buff_dot_physical",
             Duration = 15.0,
             MaxStacks = 1,
             DamageType = DamageType.Physical,
@@ -62,7 +62,7 @@ public static class ContentRegistrar {
             Effect = context.BuffEffect(BehaviorIds.BuffEffect.Dot),
         };
         var hot = new HealOverTimeBuff {
-            BuffTypeId = 1002,
+            BuffTypeId = "buff_hot",
             Duration = 15.0,
             MaxStacks = 1,
             HealthPerSec = 100.0f,
@@ -72,14 +72,14 @@ public static class ContentRegistrar {
         context.RegisterBuff(dotMagic);
         context.RegisterBuff(dotPhysical);
         context.RegisterBuff(hot);
-        return new Dictionary<ushort, BuffDefinition> {
-            [1000] = dotMagic,
-            [1001] = dotPhysical,
-            [1002] = hot,
+        return new Dictionary<string, BuffDefinition>(StringComparer.Ordinal) {
+            ["buff_dot_magic"] = dotMagic,
+            ["buff_dot_physical"] = dotPhysical,
+            ["buff_hot"] = hot,
         };
     }
     private static Dictionary<string, SkillDefinition> RegisterSkills(
-        IModBootstrapContext context, Dictionary<ushort, BuffDefinition> buffs) {
+        IModBootstrapContext context, Dictionary<string, BuffDefinition> buffs) {
         var skills = new Dictionary<string, SkillDefinition>(StringComparer.Ordinal) {
             ["skill_magic_damage"] = new DamageSkillDefinition {
                 SkillId = new SkillKeyId("skill_magic_damage"),
@@ -115,7 +115,7 @@ public static class ContentRegistrar {
                 NeedPosTarget = false,
                 TargetPolicy = SkillTargetPolicy.Different,
                 CastRange = 10f,
-                Buff = buffs[1000],
+                Buff = buffs["buff_dot_magic"],
                 Effect = context.SkillEffect(BehaviorIds.SkillEffect.AddBuff),
             },
             ["skill_add_hot"] = new AddBuffSkillDefinition {
@@ -127,7 +127,7 @@ public static class ContentRegistrar {
                 NeedPosTarget = false,
                 TargetPolicy = SkillTargetPolicy.Same,
                 CastRange = 8f,
-                Buff = buffs[1002],
+                Buff = buffs["buff_hot"],
                 Effect = context.SkillEffect(BehaviorIds.SkillEffect.AddBuff),
             },
             ["skill_rect_range_damage"] = new RangeDamageSkillDefinition {
@@ -158,7 +158,7 @@ public static class ContentRegistrar {
             }
         };
 
-        foreach (var skill in skills.Values)
+        foreach (SkillDefinition skill in skills.Values)
             context.RegisterSkill(skill);
         return skills;
     }
@@ -226,9 +226,9 @@ public static class ContentRegistrar {
     }
     private static void RegisterDungeons(
         IModBootstrapContext context, Dictionary<string, UnitConfig> units) {
-        var goblin = units["Goblin"];
-        var goblinBoss = units["GoblinBoss"];
-        var relations = context.CampRelation(BehaviorIds.CampRelation.PveBoss);
+        UnitConfig goblin = units["Goblin"];
+        UnitConfig goblinBoss = units["GoblinBoss"];
+        CampRelationResolver relations = context.CampRelation(BehaviorIds.CampRelation.PveBoss);
 
         context.RegisterDungeon(new DungeonConfig(
             DungeonKey: "goblin_camp",

@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("1_script")
-BuffTypeId = 1002
+BuffTypeId = "buff_hot"
 Icon = ExtResource("2_icon")
 BuffName = "持续治疗"
