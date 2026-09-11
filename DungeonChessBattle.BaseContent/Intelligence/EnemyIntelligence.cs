@@ -11,11 +11,10 @@ namespace DungeonChessBattle.BaseContent.Intelligence;
 /// 纯函数式决策，依赖 <see cref="IBattleUnitView"/> 只读契约；阵营关系由调用方按副本运行时注入，不绑定实例；
 /// 施法可行性经 <see cref="IBattleSceneView.CanCast"/> 向战斗世界询问，裁定口径唯一在引擎侧；目标选择以仇恨为优先，无仇恨回退最近者；射程一律取自技能配置而非魔数。
 /// </summary>
-/// <param name="fallbackApproachRange">技能未配置射程时的兜底逼近距离，默认取
-/// <see cref="EnemyIntelligenceDefaults.ApproachRange"/>。</param>
+/// <param name="approachRange">停靠距离：技能都没声明射程时按它逼近，由内容显式给出。</param>
 public sealed class EnemyIntelligence(
-    float fallbackApproachRange = EnemyIntelligenceDefaults.ApproachRange) : IUnitIntelligence {
-    private readonly float _fallbackApproachRange = fallbackApproachRange;
+    float approachRange) : IUnitIntelligence {
+    private readonly float _approachRange = approachRange;
 
     /// <inheritdoc />
     public EnemyDecision Decide(IBattleUnitView self, IBattleSceneView scene, CampRelationResolver relations) {
@@ -75,7 +74,8 @@ public sealed class EnemyIntelligence(
 
     /// <summary>
     /// 停靠距离：敌方目标技能中最远射程，属 AI 逼近偏好而非施法权威判定。
-    /// 单位目标技能取 CastRange，位置目标技能取形状 FarReach，由技能数据配置。
+    /// 单位目标技能取 CastRange，位置目标技能取形状 FarReach，由技能数据配置；
+    /// 技能都没声明射程时取构造时内容给出的停靠距离。
     /// </summary>
     private float ApproachRange(IBattleUnitView self) {
         float range = 0f;
@@ -83,10 +83,10 @@ public sealed class EnemyIntelligence(
             if (!skill.TargetPolicy.HasFlag(SkillTargetPolicy.Different))
                 continue;
 
-            float reach = skill.CastArea?.FarReach ?? skill.CastRange;
-            if (reach > range)
-                range = reach;
+            float? reach = skill.CastArea is { } area ? area.FarReach : skill.CastRange;
+            if (reach is { } value && value > range)
+                range = value;
         }
-        return range > 0f ? range : _fallbackApproachRange;
+        return range > 0f ? range : _approachRange;
     }
 }

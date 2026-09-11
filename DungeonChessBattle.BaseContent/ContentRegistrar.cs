@@ -24,7 +24,6 @@ public static class ContentRegistrar {
         Dictionary<string, SkillDefinition> skills = RegisterSkills(context, buffs);
         Dictionary<string, UnitConfig> units = RegisterUnits(context, skills);
         RegisterDungeons(context, units);
-        context.SetDefaultDungeonKey("goblin_camp");
     }
 
     private static void RegisterBehaviors(IModBootstrapContext context) {
@@ -37,7 +36,7 @@ public static class ContentRegistrar {
         context.RegisterBuffEffect(BehaviorIds.BuffEffect.Dot, static () => new Buffs.DotEffect());
         context.RegisterBuffEffect(BehaviorIds.BuffEffect.Hot, static () => new Buffs.HotEffect());
 
-        context.RegisterIntelligence(BehaviorIds.Intelligence.EnemyBasic, static () => new Intelligence.EnemyIntelligence());
+        context.RegisterIntelligence(BehaviorIds.Intelligence.EnemyBasic, static () => new Intelligence.EnemyIntelligence(approachRange: 10f));
 
         context.RegisterHateRule(BehaviorIds.HateRule.Default, static () => new DefaultHateRule());
 
@@ -138,6 +137,7 @@ public static class ContentRegistrar {
                 NeedUnitTarget = false,
                 NeedPosTarget = true,
                 TargetPolicy = SkillTargetPolicy.Different,
+                CastRange = null,
                 CastArea = new RectShape { NearClamp = 0f, FarClamp = 5.0f },
                 Damage = 200.0f,
                 DamageType = DamageType.Physical,

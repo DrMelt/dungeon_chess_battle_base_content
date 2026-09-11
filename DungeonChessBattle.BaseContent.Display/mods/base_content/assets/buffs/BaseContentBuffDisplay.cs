@@ -1,3 +1,4 @@
+using DungeonChessBattle.Battle.Shared.ValueObjects;
 using DungeonChessBattle.Game.Shared.Display;
 using Godot;
 
@@ -8,7 +9,7 @@ namespace DungeonChessBattle.BaseContent.Display;
 /// </summary>
 [GlobalClass]
 public partial class BaseContentBuffDisplay : Resource {
-    /// <summary>Buff 键，与数据面 BuffDefinition.BuffTypeId 逐字相同；长度上限 32，超限由宿主注册时拒绝。</summary>
+    /// <summary>Buff 键，与数据面 BuffDefinition.BuffTypeId 逐字相同；长度上限由 BuffTypeId 承担，超限在产出展示数据时抛异常。</summary>
     [Export]
     public string BuffTypeId {
         get; set;
@@ -28,6 +29,6 @@ public partial class BaseContentBuffDisplay : Resource {
     [Export(PropertyHint.MultilineText)]
     public string BuffDescription { get; set; } = "";
 
-    /// <summary>产出注册用的 Buff 展示数据；Buff 无场景引用，故不需注册表。</summary>
-    public BuffDisplay ToDisplay() => new(BuffTypeId, BuffName, BuffDescription, Icon);
+    /// <summary>产出注册用的 Buff 展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
+    public BuffDisplay ToDisplay() => new(new BuffTypeId(BuffTypeId), BuffName, BuffDescription, Icon);
 }

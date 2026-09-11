@@ -1,3 +1,4 @@
+using DungeonChessBattle.Battle.Shared.ValueObjects;
 using DungeonChessBattle.Game.Shared.Display;
 using Godot;
 
@@ -8,7 +9,7 @@ namespace DungeonChessBattle.BaseContent.Display;
 /// </summary>
 [GlobalClass]
 public partial class BaseContentUnitDisplay : Resource {
-    /// <summary>单位配置键，与内容注册表里的单位身份对齐。</summary>
+    /// <summary>单位配置键，与内容注册表里的单位身份逐字相同；长度上限由 UnitConfigKey 承担，超限在产出展示数据时抛异常。</summary>
     [Export]
     public string ConfigKey { get; set; } = "";
 
@@ -33,5 +34,5 @@ public partial class BaseContentUnitDisplay : Resource {
     }
 
     /// <summary>产出注册用的单位展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
-    public UnitDisplay ToDisplay() => new(ConfigKey, DisplayName, Description, Icon, ModelScene, null);
+    public UnitDisplay ToDisplay() => new(new UnitConfigKey(ConfigKey), DisplayName, Description, Icon, ModelScene, null);
 }

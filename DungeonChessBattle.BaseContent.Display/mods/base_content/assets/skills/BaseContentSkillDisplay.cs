@@ -1,3 +1,4 @@
+using DungeonChessBattle.Battle.Shared.Combat;
 using DungeonChessBattle.Game.Shared.Display;
 using Godot;
 
@@ -8,7 +9,7 @@ namespace DungeonChessBattle.BaseContent.Display;
 /// </summary>
 [GlobalClass]
 public partial class BaseContentSkillDisplay : Resource {
-    /// <summary>技能 ID。</summary>
+    /// <summary>技能键，与数据面技能身份逐字相同；长度上限由 SkillKeyId 承担，超限在产出展示数据时抛异常。</summary>
     [Export]
     public string SkillId { get; set; } = "";
 
@@ -34,5 +35,5 @@ public partial class BaseContentSkillDisplay : Resource {
 
     /// <summary>产出注册用的技能展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
     public SkillDisplay ToDisplay() =>
-        new(SkillId, SkillName, SkillDescription, Icon, RangeHintScene);
+        new(new SkillKeyId(SkillId), SkillName, SkillDescription, Icon, RangeHintScene);
 }
