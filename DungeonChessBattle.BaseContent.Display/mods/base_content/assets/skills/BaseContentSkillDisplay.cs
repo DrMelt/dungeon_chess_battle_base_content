@@ -1,4 +1,3 @@
-using DungeonChessBattle.Game.Mod.Shared;
 using DungeonChessBattle.Game.Shared.Display;
 using Godot;
 
@@ -27,16 +26,13 @@ public partial class BaseContentSkillDisplay : Resource {
     [Export(PropertyHint.MultilineText)]
     public string SkillDescription { get; set; } = "";
 
-    /// <summary>施放特效场景资源名，见宿主 Game.Shared 的 DisplayAssetIds；空串表示无。</summary>
+    /// <summary>范围提示场景，随包导出；未配置为 null，宿主不显示范围预览。</summary>
     [Export]
-    public string ApplyEffectSceneId { get; set; } = "";
+    public PackedScene? RangeHintScene {
+        get; set;
+    }
 
-    /// <summary>范围提示场景资源名，见宿主 Game.Shared 的 DisplayAssetIds；空串表示无。</summary>
-    [Export]
-    public string RangeHintSceneId { get; set; } = "";
-
-    /// <summary>产出注册用的技能展示数据；两个场景名经宿主注册表解析，未注册为 null。</summary>
-    public SkillDisplay ToDisplay(IDisplayRegistry registry) => new(
-        SkillId, SkillName, SkillDescription, Icon,
-        registry.Scene(ApplyEffectSceneId), registry.Scene(RangeHintSceneId));
+    /// <summary>产出注册用的技能展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
+    public SkillDisplay ToDisplay() =>
+        new(SkillId, SkillName, SkillDescription, Icon, RangeHintScene);
 }

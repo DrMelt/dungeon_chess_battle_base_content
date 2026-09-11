@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="BaseContentDungeonDisplay" format=3 uid="uid://bdngdeepcave"]
 
 [ext_resource type="Script" uid="uid://dcqjeuync81oo" path="res://mods/base_content/assets/dungeons/BaseContentDungeonDisplay.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://dw0roqtrm4e8m" path="res://mods/base_content/assets/dungeons/dungeon_env_cave.tscn" id="2_env"]
 
 [resource]
 script = ExtResource("1_script")
 DungeonKey = "deep_cave"
 DisplayName = "深邃洞窟"
 Description = "洞窟深处的哥布林部落更为凶悍，数量更多。"
-EnvSceneId = "env_cave"
+EnvScene = ExtResource("2_env")

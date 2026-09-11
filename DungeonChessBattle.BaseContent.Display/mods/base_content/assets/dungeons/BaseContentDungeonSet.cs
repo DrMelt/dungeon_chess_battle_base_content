@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using DungeonChessBattle.Game.Mod.Shared;
 using DungeonChessBattle.Game.Shared.Display;
 using Godot;
 
@@ -16,11 +15,11 @@ public partial class BaseContentDungeonSet : Resource {
     public Godot.Collections.Array<BaseContentDungeonDisplay> DungeonResources { get; set; } = [];
 
     /// <summary>把本集合条目转为注册用展示数据，跳过编辑器留空的槽位。</summary>
-    public IEnumerable<DungeonDisplay> ToDungeonDisplays(IDisplayRegistry registry) {
+    public IEnumerable<DungeonDisplay> ToDungeonDisplays() {
         foreach (var data in DungeonResources) {
             if (data is null)
                 continue;
-            yield return data.ToDisplay(registry);
+            yield return data.ToDisplay();
         }
     }
 }

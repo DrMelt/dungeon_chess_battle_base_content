@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c0682x4piuumr" path="res://mods/base_content/assets/skills/BaseContentSkillDisplay.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://5og0mwacrnxm" path="res://mods/base_content/assets/skills/icon_placeholder_80x80.png" id="2_icon"]
+[ext_resource type="PackedScene" uid="uid://bgluhhynft6kx" path="res://mods/base_content/assets/effects/rect/effect_skill_range_rect.tscn" id="3_range_hint"]
 
 [resource]
 script = ExtResource("1_script")
@@ -10,5 +11,4 @@ Icon = ExtResource("2_icon")
 SkillName = "矩形范围伤害"
 SkillDescription = "对矩形范围内的敌人造成伤害
 威力：200"
-ApplyEffectSceneId = "apply_effect_rect_range_damage"
-RangeHintSceneId = "range_hint_rect"
+RangeHintScene = ExtResource("3_range_hint")

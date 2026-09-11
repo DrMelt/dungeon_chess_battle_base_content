@@ -1,4 +1,3 @@
-using DungeonChessBattle.Game.Mod.Shared;
 using DungeonChessBattle.Game.Shared.Display;
 using Godot;
 
@@ -21,11 +20,13 @@ public partial class BaseContentDungeonDisplay : Resource {
     [Export(PropertyHint.MultilineText)]
     public string Description { get; set; } = "";
 
-    /// <summary>环境表现场景资源名，见宿主 Game.Shared 的 DisplayAssetIds；空串由消费方回退默认副本场景。</summary>
+    /// <summary>环境表现场景，随包导出；未配置为 null，宿主回退默认副本场景。</summary>
     [Export]
-    public string EnvSceneId { get; set; } = "";
+    public PackedScene? EnvScene {
+        get; set;
+    }
 
-    /// <summary>产出注册用的副本展示数据；环境场景名经宿主注册表解析，空串或未注册为 null。</summary>
-    public DungeonDisplay ToDisplay(IDisplayRegistry registry) =>
-        new(DungeonKey, DisplayName, Description, registry.Scene(EnvSceneId));
+    /// <summary>产出注册用的副本展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
+    public DungeonDisplay ToDisplay() =>
+        new(DungeonKey, DisplayName, Description, EnvScene);
 }
