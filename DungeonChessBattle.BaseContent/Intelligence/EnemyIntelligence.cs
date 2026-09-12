@@ -8,7 +8,7 @@ namespace DungeonChessBattle.BaseContent.Intelligence;
 
 /// <summary>
 /// 默认敌人决策模块：为单个敌方单位生成当帧动作意图。
-/// 纯函数式决策，依赖 <see cref="IBattleUnitView"/> 只读契约；阵营关系由调用方按副本运行时注入，不绑定实例；
+/// 纯函数式决策，依赖 <see cref="IBattleUnitView"/> 只读接口；阵营关系由调用方按副本运行时注入，不绑定实例；
 /// 施法可行性经 <see cref="IBattleSceneView.CanCast"/> 向战斗世界询问，裁定口径唯一在引擎侧；目标选择以仇恨为优先，无仇恨回退最近者；射程一律取自技能配置而非魔数。
 /// </summary>
 /// <param name="approachRange">停靠距离：技能都没声明射程时按它逼近，由内容显式给出。</param>
