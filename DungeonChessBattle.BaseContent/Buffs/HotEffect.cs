@@ -6,14 +6,14 @@ using DungeonChessBattle.BaseContent.Combat;
 namespace DungeonChessBattle.BaseContent.Buffs;
 
 /// <summary>持续治疗 HOT 效果。</summary>
-public sealed class HotEffect : IBuffEffect {
+/// <param name="healthPerSec">每秒治疗基础值。</param>
+public sealed class HotEffect(float healthPerSec) : IBuffEffect {
     /// <inheritdoc />
-    public IEnumerable<IBattleEvent> Tick(BuffDefinition definition, double accumulatedSeconds, BuffInstance instance, UnitSnapshot target) {
+    public IEnumerable<IBattleEvent> Tick(double elapsedSeconds, BuffInstance instance, UnitSnapshot target) {
         if (instance.From is not { } from)
             yield break;
 
-        var hot = (HealOverTimeBuff)definition;
-        float baseHps = hot.HealthPerSec * (float)accumulatedSeconds;
+        float baseHps = healthPerSec * (float)elapsedSeconds;
         var result = HealProcessor.Process(from, target, baseHps);
         yield return new HealOccurred(instance.SourceUnitId, instance.TargetUnitId, result.ActualHeal);
     }
