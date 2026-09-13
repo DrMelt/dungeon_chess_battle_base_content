@@ -1,4 +1,5 @@
-# 构建基座 mod 并组装 mods/base_content 布局：manifest.json 声明 code/*.dll + code_display/*.dll + assets/*.pck 三类产物。
+# 构建基座 mod 并组装 mods/base_content 布局：manifest.json 的顶层声明 code/*.dll，
+# display 段声明 code_display/*.dll 与 assets/*.pck 两类展示产物。
 # 前置：$env:DCB_GODOT_4_7_1 指向 Godot_v4.7.1-stable_mono_win64.exe（mono 版，与展示工程 Godot.NET.Sdk 同版本）。
 # 在解决方案根执行：powershell -File pack-mod.ps1
 $ErrorActionPreference = 'Stop'
@@ -59,15 +60,16 @@ if (-not (Test-Path $pckFile)) { throw "PCK 导出失败：$pckFile 不存在" }
 
 $manifest = [ordered]@{
     id           = $modId
-    name         = 'Base Content'
     version      = $sdkVersion
     revision     = '0'
     dependencies = @()
-    priority     = 10
+    # 顶层是数据面声明，display 是展示面声明：两段各由自己的消费方读取裁决
     # 入口与资源包显式声明；入口 DLL 所在目录自动登记为依赖探测根，依赖与入口同目录时无需再声明
     code         = @("code/$(Split-Path -Leaf $dataDll)")
-    codeDisplay  = @("code_display/$(Split-Path -Leaf $displayDll)")
-    packages     = @("assets/$(Split-Path -Leaf $pckFile)")
+    display      = [ordered]@{
+        code  = @("code_display/$(Split-Path -Leaf $displayDll)")
+        packs = @("assets/$(Split-Path -Leaf $pckFile)")
+    }
 }
 # 无 BOM 写出：装载侧按 UTF-8 读 manifest
 [System.IO.File]::WriteAllText((Join-Path $modDir 'manifest.json'), ($manifest | ConvertTo-Json -Depth 4))
