@@ -11,7 +11,7 @@ namespace DungeonChessBattle.BaseContent.Skills;
 public sealed class RangeDamageEffect(float damage, DamageType damageType) : ISkillEffect {
     /// <inheritdoc />
     public SkillResolution Resolve(SkillResolveContext ctx) {
-        if (ctx.Skill.CastArea is not { } area)
+        if (ctx.CastArea is not { } area)
             return SkillResolution.Empty;
 
         var aim = (ctx.TargetPos ?? Vector2.Zero) - ctx.Caster.Snapshot.Position;

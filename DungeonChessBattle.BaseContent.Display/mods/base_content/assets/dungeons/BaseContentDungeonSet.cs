@@ -5,7 +5,7 @@ using Godot;
 namespace DungeonChessBattle.BaseContent.Display;
 
 /// <summary>
-/// 基座副本展示资源集合：<c>dungeons/dungeon_set.tres</c> 的脚本类，条目在 Godot 编辑器拖拽维护。
+/// 副本展示资源集合：<c>dungeons/dungeon_set.tres</c> 的脚本类，条目在 Godot 编辑器拖拽维护。
 /// 集合由总集合 <c>assets/display_set.tres</c> 汇总；新增副本只加 .tres 并拖入集合，不必改 DisplayEntry。
 /// </summary>
 [GlobalClass]

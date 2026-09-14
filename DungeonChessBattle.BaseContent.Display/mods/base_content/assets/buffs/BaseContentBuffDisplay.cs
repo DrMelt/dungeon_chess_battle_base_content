@@ -5,7 +5,7 @@ using Godot;
 namespace DungeonChessBattle.BaseContent.Display;
 
 /// <summary>
-/// 基座 Buff 展示数据资源形状：buffs/*.tres 的脚本类，字段在 Godot 编辑器配置。
+/// Buff 展示数据资源形状：buffs/*.tres 的脚本类，字段在 Godot 编辑器配置。
 /// </summary>
 [GlobalClass]
 public partial class BaseContentBuffDisplay : Resource {

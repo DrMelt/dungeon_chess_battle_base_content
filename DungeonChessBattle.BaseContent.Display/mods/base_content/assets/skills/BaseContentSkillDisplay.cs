@@ -5,7 +5,7 @@ using Godot;
 namespace DungeonChessBattle.BaseContent.Display;
 
 /// <summary>
-/// 基座技能展示数据资源形状：skills/*.tres 的脚本类，字段在 Godot 编辑器配置。
+/// 技能展示数据资源形状：skills/*.tres 的脚本类，字段在 Godot 编辑器配置。
 /// </summary>
 [GlobalClass]
 public partial class BaseContentSkillDisplay : Resource {

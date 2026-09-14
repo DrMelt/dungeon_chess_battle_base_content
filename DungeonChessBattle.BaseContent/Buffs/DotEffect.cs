@@ -9,7 +9,7 @@ namespace DungeonChessBattle.BaseContent.Buffs;
 /// <param name="damagePerSec">每秒伤害基础值。</param>
 public sealed class DotEffect(float damagePerSec) : IBuffEffect {
     /// <inheritdoc />
-    public IEnumerable<IBattleEvent> Tick(double elapsedSeconds, BuffInstance instance, UnitSnapshot target) {
+    public IEnumerable<IBattleEvent> Tick(double elapsedSeconds, IBuffView instance, UnitSnapshot target) {
         if (instance.From is not { } from)
             yield break;
 

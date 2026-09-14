@@ -5,7 +5,7 @@ using Godot;
 namespace DungeonChessBattle.BaseContent.Display;
 
 /// <summary>
-/// 基座单位展示数据资源形状：units/*.tres 的脚本类，字段在 Godot 编辑器配置。
+/// 单位展示数据资源形状：units/*.tres 的脚本类，字段在 Godot 编辑器配置。
 /// </summary>
 [GlobalClass]
 public partial class BaseContentUnitDisplay : Resource {

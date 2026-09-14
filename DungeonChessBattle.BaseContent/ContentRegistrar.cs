@@ -1,29 +1,32 @@
 using DungeonChessBattle.Battle.Mod.Shared;
-using DungeonChessBattle.Battle.Shared.Buffs;
+using DungeonChessBattle.Battle.Config.Shared.Buffs;
+using DungeonChessBattle.Battle.Config.Shared.Combat;
 using DungeonChessBattle.Battle.Shared.Combat;
-using DungeonChessBattle.Battle.Shared.Content;
-using DungeonChessBattle.Battle.Shared.Enums;
-using DungeonChessBattle.Battle.Shared.Movement;
-using DungeonChessBattle.Battle.Shared.Range;
+using DungeonChessBattle.Battle.Config.Shared.Content;
+using DungeonChessBattle.Battle.Shared.Camp;
+using DungeonChessBattle.Battle.Shared.ValueObjects;
+using DungeonChessBattle.Battle.Config.Shared.Movement;
+using DungeonChessBattle.Battle.Config.Shared.Range;
 
 namespace DungeonChessBattle.BaseContent;
 
-using CampRelationEnum = DungeonChessBattle.Battle.Shared.Enums.CampRelation;
+using CampRelationEnum = DungeonChessBattle.Battle.Shared.Camp.CampRelation;
 
 /// <summary>
-/// 基座内容注册器：把原本内置于主解决方案 Battle.GameConfig 的单位/技能/Buff/副本定义整体迁出，
+/// 内容注册器：把原本内置于主解决方案 Battle.Config.Registry 的单位/技能/Buff/副本定义整体迁出，
 /// 行为实现随定义就地构造并注入，经 IModBootstrapContext 注册。注册次序即覆盖次序。
 /// </summary>
 public static class ContentRegistrar {
     /// <summary>全部内容注册入口。</summary>
     public static void RegisterAll(IModBootstrapContext context) {
-        Dictionary<string, BuffDefinition> buffs = RegisterBuffs(context);
-        Dictionary<string, SkillDefinition> skills = RegisterSkills(context, buffs);
-        Dictionary<string, UnitConfig> units = RegisterUnits(context, skills);
+        var buffs = RegisterBuffs(context);
+        var skills = RegisterSkills(context, buffs);
+        var units = RegisterUnits(context, skills);
         RegisterDungeons(context, units);
     }
 
-    private static Dictionary<string, BuffDefinition> RegisterBuffs(IModBootstrapContext context) {
+    /// <summary>注册全部 Buff 定义，返回技能装配要引用的两个；其余只注册不入返回。</summary>
+    private static (BuffDefinition DotMagic, BuffDefinition Hot) RegisterBuffs(IModBootstrapContext context) {
         var dotMagic = new BuffDefinition {
             BuffTypeId = "buff_dot_magic",
             Duration = 30.0,
@@ -48,90 +51,91 @@ public static class ContentRegistrar {
         context.RegisterBuff(dotMagic);
         context.RegisterBuff(dotPhysical);
         context.RegisterBuff(hot);
-        return new Dictionary<string, BuffDefinition>(StringComparer.Ordinal) {
-            ["buff_dot_magic"] = dotMagic,
-            ["buff_dot_physical"] = dotPhysical,
-            ["buff_hot"] = hot,
-        };
+        return (dotMagic, hot);
     }
-    private static Dictionary<string, SkillDefinition> RegisterSkills(
-        IModBootstrapContext context, Dictionary<string, BuffDefinition> buffs) {
-        var skills = new Dictionary<string, SkillDefinition>(StringComparer.Ordinal) {
-            ["skill_magic_damage"] = new SkillDefinition {
-                SkillId = new SkillKeyId("skill_magic_damage"),
-                SpellTime = 2.0f,
-                CooldownTime = 0.0f,
-                Gcd = GcdDefinition.Default,
-                NeedUnitTarget = true,
-                NeedPosTarget = false,
-                TargetPolicy = SkillTargetPolicy.Different,
-                CastRange = 10f,
-                Effect = new Skills.DamageEffect(damage: 140.0f, damageType: DamageType.Magic),
-            },
-            ["skill_cure"] = new SkillDefinition {
-                SkillId = new SkillKeyId("skill_cure"),
-                SpellTime = 0.5f,
-                CooldownTime = 0.0f,
-                Gcd = GcdDefinition.Default,
-                NeedUnitTarget = true,
-                NeedPosTarget = false,
-                TargetPolicy = SkillTargetPolicy.Same,
-                CastRange = 8f,
-                Effect = new Skills.HealEffect(curePotency: 500.0f),
-            },
-            ["skill_add_dot_magic"] = new SkillDefinition {
-                SkillId = new SkillKeyId("skill_add_dot_magic"),
-                SpellTime = 0.0f,
-                CooldownTime = 0.0f,
-                Gcd = GcdDefinition.Default,
-                NeedUnitTarget = true,
-                NeedPosTarget = false,
-                TargetPolicy = SkillTargetPolicy.Different,
-                CastRange = 10f,
-                Effect = new Skills.AddBuffEffect(buff: buffs["buff_dot_magic"]),
-            },
-            ["skill_add_hot"] = new SkillDefinition {
-                SkillId = new SkillKeyId("skill_add_hot"),
-                SpellTime = 0.0f,
-                CooldownTime = 0.0f,
-                Gcd = GcdDefinition.Default,
-                NeedUnitTarget = true,
-                NeedPosTarget = false,
-                TargetPolicy = SkillTargetPolicy.Same,
-                CastRange = 8f,
-                Effect = new Skills.AddBuffEffect(buff: buffs["buff_hot"]),
-            },
-            ["skill_rect_range_damage"] = new SkillDefinition {
-                SkillId = new SkillKeyId("skill_rect_range_damage"),
-                SpellTime = 2.0f,
-                CooldownTime = 0.0f,
-                Gcd = GcdDefinition.Default,
-                NeedUnitTarget = false,
-                NeedPosTarget = true,
-                TargetPolicy = SkillTargetPolicy.Different,
-                CastRange = null,
-                CastArea = new RectShape { NearClamp = 0f, FarClamp = 5.0f },
-                Effect = new Skills.RangeDamageEffect(damage: 200.0f, damageType: DamageType.Physical),
-            },
-            ["skill_taunt"] = new SkillDefinition {
-                SkillId = new SkillKeyId("skill_taunt"),
-                SpellTime = 0.0f,
-                CooldownTime = 20.0f,
-                Gcd = new GcdDefinition { GroupKey = null, Time = 2.5f },
-                NeedUnitTarget = true,
-                NeedPosTarget = false,
-                TargetPolicy = SkillTargetPolicy.Different,
-                CastRange = 10f,
-                Effect = new Skills.HateSkillEffect(op: HateEffectOp.SetTop, value: 1000.0f),
-            }
+    /// <summary>注册全部技能定义，返回按技能键的索引表与单位配置要引用的具名定义。</summary>
+    private static SkillSet RegisterSkills(
+        IModBootstrapContext context, (BuffDefinition DotMagic, BuffDefinition Hot) buffs) {
+        var magicDamage = new SkillDefinition {
+            SkillId = new SkillKeyId("skill_magic_damage"),
+            SpellTime = 2.0f,
+            CooldownTime = 0.0f,
+            Gcd = GcdDefinition.Default,
+            NeedUnitTarget = true,
+            NeedPosTarget = false,
+            TargetPolicy = SkillTargetPolicy.Different,
+            CastRange = 10f,
+            Effect = new Skills.DamageEffect(damage: 140.0f, damageType: DamageType.Magic),
+        };
+        var cure = new SkillDefinition {
+            SkillId = new SkillKeyId("skill_cure"),
+            SpellTime = 0.5f,
+            CooldownTime = 0.0f,
+            Gcd = GcdDefinition.Default,
+            NeedUnitTarget = true,
+            NeedPosTarget = false,
+            TargetPolicy = SkillTargetPolicy.Same,
+            CastRange = 8f,
+            Effect = new Skills.HealEffect(curePotency: 500.0f),
+        };
+        var addDotMagic = new SkillDefinition {
+            SkillId = new SkillKeyId("skill_add_dot_magic"),
+            SpellTime = 0.0f,
+            CooldownTime = 0.0f,
+            Gcd = GcdDefinition.Default,
+            NeedUnitTarget = true,
+            NeedPosTarget = false,
+            TargetPolicy = SkillTargetPolicy.Different,
+            CastRange = 10f,
+            Effect = new Skills.AddBuffEffect(buff: buffs.DotMagic),
+        };
+        var addHot = new SkillDefinition {
+            SkillId = new SkillKeyId("skill_add_hot"),
+            SpellTime = 0.0f,
+            CooldownTime = 0.0f,
+            Gcd = GcdDefinition.Default,
+            NeedUnitTarget = true,
+            NeedPosTarget = false,
+            TargetPolicy = SkillTargetPolicy.Same,
+            CastRange = 8f,
+            Effect = new Skills.AddBuffEffect(buff: buffs.Hot),
+        };
+        var rectRangeDamage = new SkillDefinition {
+            SkillId = new SkillKeyId("skill_rect_range_damage"),
+            SpellTime = 2.0f,
+            CooldownTime = 0.0f,
+            Gcd = GcdDefinition.Default,
+            NeedUnitTarget = false,
+            NeedPosTarget = true,
+            TargetPolicy = SkillTargetPolicy.Different,
+            CastRange = null,
+            CastArea = new RectShape { NearClamp = 0f, FarClamp = 5.0f },
+            Effect = new Skills.RangeDamageEffect(damage: 200.0f, damageType: DamageType.Physical),
+        };
+        var taunt = new SkillDefinition {
+            SkillId = new SkillKeyId("skill_taunt"),
+            SpellTime = 0.0f,
+            CooldownTime = 20.0f,
+            Gcd = new GcdDefinition { GroupKey = null, Time = 2.5f },
+            NeedUnitTarget = true,
+            NeedPosTarget = false,
+            TargetPolicy = SkillTargetPolicy.Different,
+            CastRange = 10f,
+            Effect = new Skills.HateSkillEffect(op: HateEffectOp.SetTop, value: 1000.0f),
         };
 
-        foreach (SkillDefinition skill in skills.Values)
+        // 索引表键取定义自身身份，注册与索引一次完成，键字面量不另写
+        var byKey = new Dictionary<SkillKeyId, SkillDefinition>();
+        foreach (var skill in new[] { magicDamage, cure, addDotMagic, addHot, rectRangeDamage, taunt }) {
             context.RegisterSkill(skill);
-        return skills;
+            byKey[skill.SkillId] = skill;
+        }
+
+        return new SkillSet(byKey, magicDamage, cure, addDotMagic, addHot, rectRangeDamage, taunt);
     }
-    private static Dictionary<string, UnitConfig> RegisterUnits(
-        IModBootstrapContext context, Dictionary<string, SkillDefinition> skills) {
+    /// <summary>注册全部单位配置，返回副本装配要引用的两个敌人单位。</summary>
+    private static (UnitConfig Goblin, UnitConfig GoblinBoss) RegisterUnits(
+        IModBootstrapContext context, SkillSet skills) {
         var whiteMage = new UnitConfig {
             ConfigKey = "WhiteMage",
             IsPlayerSelectable = true,
@@ -140,14 +144,14 @@ public static class ContentRegistrar {
                 PhysicalAttackBase: 1.0f, PhysicalTakePercent: 1.0f,
                 MagicAttackBase: 1.0f, MagicTakePercent: 1.0f, CureIntensity: 1.0f),
             Skills = [
-                skills["skill_add_hot"],
-                skills["skill_cure"],
-                skills["skill_add_dot_magic"],
-                skills["skill_magic_damage"],
-                skills["skill_rect_range_damage"],
-                skills["skill_taunt"],
+                skills.AddHot,
+                skills.Cure,
+                skills.AddDotMagic,
+                skills.MagicDamage,
+                skills.RectRangeDamage,
+                skills.Taunt,
             ],
-            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f),
+            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f, skills: skills.ByKey),
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 0.8f,
         };
@@ -159,10 +163,10 @@ public static class ContentRegistrar {
                 PhysicalAttackBase: 1.2f, PhysicalTakePercent: 1.0f,
                 MagicAttackBase: 1.0f, MagicTakePercent: 1.0f, CureIntensity: 1.0f),
             Skills = [
-                skills["skill_magic_damage"],
-                skills["skill_rect_range_damage"],
+                skills.MagicDamage,
+                skills.RectRangeDamage,
             ],
-            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f),
+            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f, skills: skills.ByKey),
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 1.0f,
         };
@@ -174,11 +178,11 @@ public static class ContentRegistrar {
                 PhysicalAttackBase: 1.5f, PhysicalTakePercent: 0.8f,
                 MagicAttackBase: 1.3f, MagicTakePercent: 0.8f, CureIntensity: 1.0f),
             Skills = [
-                skills["skill_add_dot_magic"],
-                skills["skill_magic_damage"],
-                skills["skill_rect_range_damage"],
+                skills.AddDotMagic,
+                skills.MagicDamage,
+                skills.RectRangeDamage,
             ],
-            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f),
+            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f, skills: skills.ByKey),
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 1.0f,
         };
@@ -186,21 +190,17 @@ public static class ContentRegistrar {
         context.RegisterUnit(whiteMage);
         context.RegisterUnit(goblin);
         context.RegisterUnit(goblinBoss);
-        return new Dictionary<string, UnitConfig>(StringComparer.Ordinal) {
-            [whiteMage.ConfigKey.Value] = whiteMage,
-            [goblin.ConfigKey.Value] = goblin,
-            [goblinBoss.ConfigKey.Value] = goblinBoss,
-        };
+        return (goblin, goblinBoss);
     }
     private static void RegisterDungeons(
-        IModBootstrapContext context, Dictionary<string, UnitConfig> units) {
-        UnitConfig goblin = units["Goblin"];
-        UnitConfig goblinBoss = units["GoblinBoss"];
+        IModBootstrapContext context, (UnitConfig Goblin, UnitConfig GoblinBoss) units) {
+        UnitConfig goblin = units.Goblin;
+        UnitConfig goblinBoss = units.GoblinBoss;
         CampRelationResolver relations = CampRelationsPve;
 
         context.RegisterDungeon(new DungeonConfig(
             DungeonKey: "goblin_camp",
-            PlayerCampOptions: [new PlayerCampOption("a", ["Camp_A"])],
+            PlayerCampOptions: [new PlayerCampOption("a", ["Camp_A"], SpawnBaseX: 0f, SpawnXSpacing: 3f)],
             Enemies: [
                 new EnemySpawnConfig(goblin, Count: 3, SpawnBaseX: 30f, SpawnXSpacing: 3f),
                 new EnemySpawnConfig(goblinBoss, Count: 1, SpawnBaseX: 42f, SpawnXSpacing: 0f),
@@ -212,7 +212,7 @@ public static class ContentRegistrar {
 
         context.RegisterDungeon(new DungeonConfig(
             DungeonKey: "deep_cave",
-            PlayerCampOptions: [new PlayerCampOption("a", ["Camp_A"])],
+            PlayerCampOptions: [new PlayerCampOption("a", ["Camp_A"], SpawnBaseX: 0f, SpawnXSpacing: 3f)],
             Enemies: [
                 new EnemySpawnConfig(goblin, Count: 5, SpawnBaseX: 28f, SpawnXSpacing: 2.5f),
                 new EnemySpawnConfig(goblinBoss, Count: 1, SpawnBaseX: 44f, SpawnXSpacing: 0f),
@@ -227,11 +227,14 @@ public static class ContentRegistrar {
                 ])));
     }
 
+    /// <summary>本内容定义的 Boss 阵营标识：引擎不持阵营取值白名单，取值由内容包自持。</summary>
+    private static readonly CampId BossCamp = new("Camp_BOSS");
+
     /// <summary>PvE 阵营关系：双方均含 Boss 阵营为友；任一方含 Boss 阵营即敌对；存在共同阵营为友；其余返回 Unknown。</summary>
     private static CampRelationEnum CampRelationsPve(
-        IReadOnlyList<string> sourceCamps, IReadOnlyList<string> targetCamps) {
-        bool sourceHasBoss = sourceCamps.Contains(CampConstants.CampBoss);
-        bool targetHasBoss = targetCamps.Contains(CampConstants.CampBoss);
+        IReadOnlyList<CampId> sourceCamps, IReadOnlyList<CampId> targetCamps) {
+        bool sourceHasBoss = sourceCamps.Contains(BossCamp);
+        bool targetHasBoss = targetCamps.Contains(BossCamp);
 
         if (sourceHasBoss && targetHasBoss)
             return CampRelationEnum.Friendly;
@@ -242,4 +245,14 @@ public static class ContentRegistrar {
             return CampRelationEnum.Friendly;
         return CampRelationEnum.Unknown;
     }
+
+    /// <summary>本内容的技能装配结果：AI 按技能键解析射程与目标策略的索引表，加单位配置直接引用的具名定义。</summary>
+    private sealed record SkillSet(
+        Dictionary<SkillKeyId, SkillDefinition> ByKey,
+        SkillDefinition MagicDamage,
+        SkillDefinition Cure,
+        SkillDefinition AddDotMagic,
+        SkillDefinition AddHot,
+        SkillDefinition RectRangeDamage,
+        SkillDefinition Taunt);
 }

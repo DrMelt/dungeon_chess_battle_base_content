@@ -5,7 +5,7 @@ using Godot;
 namespace DungeonChessBattle.BaseContent.Display.mods.base_content;
 
 /// <summary>
-/// 基座 mod 展示入口：展示数据（名称/描述/图标/场景）全部落在本工程
+/// mod 展示入口：展示数据（名称/描述/图标/场景）全部落在本工程
 /// <c>mods/base_content/assets</c> 的 .tres 资源文件，经 Godot 编辑器配置，场景随包导出并直接引用。
 /// 装载清单是总集合 <c>assets/display_set.tres</c>，本入口只装载它、取它转好的注册用展示数据逐条注册，
 /// 字段映射都在资源类一侧，不在此处。
