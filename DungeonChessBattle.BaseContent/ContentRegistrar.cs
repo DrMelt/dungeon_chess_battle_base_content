@@ -53,7 +53,7 @@ public static class ContentRegistrar {
         context.RegisterBuff(hot);
         return (dotMagic, hot);
     }
-    /// <summary>注册全部技能定义，返回按技能键的索引表与单位配置要引用的具名定义。</summary>
+    /// <summary>注册全部技能定义，返回单位配置要引用的具名定义。</summary>
     private static SkillSet RegisterSkills(
         IModBootstrapContext context, (BuffDefinition DotMagic, BuffDefinition Hot) buffs) {
         var magicDamage = new SkillDefinition {
@@ -124,18 +124,16 @@ public static class ContentRegistrar {
             Effect = new Skills.HateSkillEffect(op: HateEffectOp.SetTop, value: 1000.0f),
         };
 
-        // 索引表键取定义自身身份，注册与索引一次完成，键字面量不另写
-        var byKey = new Dictionary<SkillKeyId, SkillDefinition>();
-        foreach (var skill in new[] { magicDamage, cure, addDotMagic, addHot, rectRangeDamage, taunt }) {
+        foreach (var skill in new[] { magicDamage, cure, addDotMagic, addHot, rectRangeDamage, taunt })
             context.RegisterSkill(skill);
-            byKey[skill.SkillId] = skill;
-        }
 
-        return new SkillSet(byKey, magicDamage, cure, addDotMagic, addHot, rectRangeDamage, taunt);
+        return new SkillSet(magicDamage, cure, addDotMagic, addHot, rectRangeDamage, taunt);
     }
     /// <summary>注册全部单位配置，返回副本装配要引用的两个敌人单位。</summary>
     private static (UnitConfig Goblin, UnitConfig GoblinBoss) RegisterUnits(
         IModBootstrapContext context, SkillSet skills) {
+        // 决策不持状态，三个单位共用同一实例
+        var intelligence = new Intelligence.EnemyIntelligence();
         var whiteMage = new UnitConfig {
             ConfigKey = "WhiteMage",
             IsPlayerSelectable = true,
@@ -151,7 +149,7 @@ public static class ContentRegistrar {
                 skills.RectRangeDamage,
                 skills.Taunt,
             ],
-            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f, skills: skills.ByKey),
+            Intelligence = intelligence,
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 0.8f,
         };
@@ -166,7 +164,7 @@ public static class ContentRegistrar {
                 skills.MagicDamage,
                 skills.RectRangeDamage,
             ],
-            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f, skills: skills.ByKey),
+            Intelligence = intelligence,
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 1.0f,
         };
@@ -182,7 +180,7 @@ public static class ContentRegistrar {
                 skills.MagicDamage,
                 skills.RectRangeDamage,
             ],
-            Intelligence = new Intelligence.EnemyIntelligence(approachRange: 10f, skills: skills.ByKey),
+            Intelligence = intelligence,
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 1.0f,
         };
@@ -246,9 +244,8 @@ public static class ContentRegistrar {
         return CampRelationEnum.Unknown;
     }
 
-    /// <summary>本内容的技能装配结果：AI 按技能键解析射程与目标策略的索引表，加单位配置直接引用的具名定义。</summary>
+    /// <summary>本内容的技能装配结果：单位配置直接引用的具名定义。</summary>
     private sealed record SkillSet(
-        Dictionary<SkillKeyId, SkillDefinition> ByKey,
         SkillDefinition MagicDamage,
         SkillDefinition Cure,
         SkillDefinition AddDotMagic,

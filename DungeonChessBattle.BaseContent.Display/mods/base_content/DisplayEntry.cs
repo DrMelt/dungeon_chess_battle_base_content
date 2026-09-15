@@ -9,7 +9,7 @@ namespace DungeonChessBattle.BaseContent.Display.mods.base_content;
 /// <c>mods/base_content/assets</c> 的 .tres 资源文件，经 Godot 编辑器配置，场景随包导出并直接引用。
 /// 装载清单是总集合 <c>assets/display_set.tres</c>，本入口只装载它、取它转好的注册用展示数据逐条注册，
 /// 字段映射都在资源类一侧，不在此处。
-/// 总集合缺失即本 mod 不注册任何条目，占位补全由装配侧兜底；某类集合缺失只丢该类条目。
+/// 总集合缺失即本 mod 不注册任何条目，条目缺席由宿主按内容键回退显示名；某类集合缺失只丢该类条目。
 /// </summary>
 public sealed class DisplayEntry : IModDisplayEntry {
     private const string DisplaySetPath = "assets/display_set.tres";

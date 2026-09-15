@@ -9,5 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="DungeonChessBattle.Battle.Mod.Interface" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 </Project>
