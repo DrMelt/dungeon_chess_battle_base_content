@@ -1,12 +1,12 @@
 # 构建 base_content mod 并组装 mods/base_content 布局：manifest.json 的顶层声明 code/*.dll，
 # display 段声明 code_display/*.dll 与 assets/*.pck 两类展示产物。
-# 前置：$env:DCB_GODOT_4_7_1 指向 Godot_v4.7.1-stable_mono_win64.exe（mono 版，与展示工程 Godot.NET.Sdk 同版本）。
+# 前置：$env:DCB_GODOT_4_7_2 指向 Godot_v4.7.2-stable_mono_win64.exe（mono 版，与展示工程 Godot.NET.Sdk 同版本）。
 # 在解决方案根执行：powershell -File pack-mod.ps1
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = $PSScriptRoot
 $modId = 'base_content'
-$godotVersion = '4.7.1'
+$godotVersion = '4.7.2'
 $dataProject = Join-Path $repoRoot 'DungeonChessBattle.BaseContent\DungeonChessBattle.BaseContent.csproj'
 $dataDll = Join-Path $repoRoot 'DungeonChessBattle.BaseContent\bin\Release\net10.0\DungeonChessBattle.BaseContent.dll'
 $displayProject = Join-Path $repoRoot 'DungeonChessBattle.BaseContent.Display\DungeonChessBattle.BaseContent.Display.csproj'
