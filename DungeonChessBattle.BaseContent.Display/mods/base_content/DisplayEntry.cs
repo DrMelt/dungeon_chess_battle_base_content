@@ -1,3 +1,4 @@
+using DungeonChessBattle.Game.Display.Registry;
 using DungeonChessBattle.Game.Mod.Interface;
 using DungeonChessBattle.Game.Mod.Shared;
 using Godot;
@@ -14,18 +15,18 @@ namespace DungeonChessBattle.BaseContent.Display.mods.base_content;
 public sealed class DisplayEntry : IModDisplayEntry {
     private const string DisplaySetPath = "assets/display_set.tres";
 
-    public void Initialize(IModDisplayRuntime runtime, ModDisplayContext context) {
+    public void Initialize(IDisplayRegistrar registrar, ModDisplayContext context) {
         // 资源包由宿主在入口执行前挂载，包内路径在导出时已固化为 res://mods/{mod id}/ 前缀
         if (GD.Load<BaseContentDisplaySet>($"res://mods/{context.ModId}/{DisplaySetPath}") is not { } sets)
             return;
 
         foreach (var display in sets.ToSkillDisplays())
-            runtime.RegisterSkill(display);
+            registrar.RegisterSkill(display);
         foreach (var display in sets.ToBuffDisplays())
-            runtime.RegisterBuff(display);
+            registrar.RegisterBuff(display);
         foreach (var display in sets.ToUnitDisplays())
-            runtime.RegisterUnit(display);
+            registrar.RegisterUnit(display);
         foreach (var display in sets.ToDungeonDisplays())
-            runtime.RegisterDungeon(display);
+            registrar.RegisterDungeon(display);
     }
 }
