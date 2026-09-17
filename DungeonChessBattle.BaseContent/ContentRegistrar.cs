@@ -3,6 +3,7 @@ using DungeonChessBattle.Battle.Config.Shared.Buffs;
 using DungeonChessBattle.Battle.Config.Shared.Combat;
 using DungeonChessBattle.Battle.Shared.Combat;
 using DungeonChessBattle.Battle.Config.Shared.Content;
+using DungeonChessBattle.Battle.Config.Shared.Control;
 using DungeonChessBattle.Battle.Shared.Camp;
 using DungeonChessBattle.Battle.Shared.ValueObjects;
 using DungeonChessBattle.Battle.Config.Shared.Movement;
@@ -10,7 +11,7 @@ using DungeonChessBattle.Battle.Config.Shared.Range;
 
 namespace DungeonChessBattle.BaseContent;
 
-using CampRelationEnum = DungeonChessBattle.Battle.Shared.Camp.CampRelation;
+using CampRelationEnum = CampRelation;
 
 /// <summary>
 /// 内容注册器：把原本内置于主解决方案 Battle.Config.Registry 的单位/技能/Buff/副本定义整体迁出，
@@ -132,11 +133,10 @@ public static class ContentRegistrar {
     /// <summary>注册全部单位配置，返回副本装配要引用的两个敌人单位。</summary>
     private static (UnitConfig Goblin, UnitConfig GoblinBoss) RegisterUnits(
         IModBootstrapContext context, SkillSet skills) {
-        // 决策不持状态，三个单位共用同一实例
-        var intelligence = new Intelligence.EnemyIntelligence();
+        // 决策算法无状态，两个敌人单位共用同一控制者实例
+        var enemyController = new UnitControllerConfig(new Decisions.EnemyIntelligence());
         var whiteMage = new UnitConfig {
             ConfigKey = "WhiteMage",
-            IsPlayerSelectable = true,
             BaseConfig = new UnitBaseConfig(
                 MaxHealth: 1000f, BodyRadius: 0.5f, BaseSpeed: 2.0f,
                 PhysicalAttackBase: 1.0f, PhysicalTakePercent: 1.0f,
@@ -149,13 +149,12 @@ public static class ContentRegistrar {
                 skills.RectRangeDamage,
                 skills.Taunt,
             ],
-            Intelligence = intelligence,
             HateRule = new Hates.DefaultHateRule(),
-            HateFactor = 0.8f,
+            HateFactor = 1.0f,
         };
         var goblin = new UnitConfig {
             ConfigKey = "Goblin",
-            IsPlayerSelectable = false,
+            Controller = enemyController,
             BaseConfig = new UnitBaseConfig(
                 MaxHealth: 800f, BodyRadius: 0.5f, BaseSpeed: 2.2f,
                 PhysicalAttackBase: 1.2f, PhysicalTakePercent: 1.0f,
@@ -164,13 +163,12 @@ public static class ContentRegistrar {
                 skills.MagicDamage,
                 skills.RectRangeDamage,
             ],
-            Intelligence = intelligence,
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 1.0f,
         };
         var goblinBoss = new UnitConfig {
             ConfigKey = "GoblinBoss",
-            IsPlayerSelectable = false,
+            Controller = enemyController,
             BaseConfig = new UnitBaseConfig(
                 MaxHealth: 2000f, BodyRadius: 0.8f, BaseSpeed: 1.8f,
                 PhysicalAttackBase: 1.5f, PhysicalTakePercent: 0.8f,
@@ -180,12 +178,11 @@ public static class ContentRegistrar {
                 skills.MagicDamage,
                 skills.RectRangeDamage,
             ],
-            Intelligence = intelligence,
             HateRule = new Hates.DefaultHateRule(),
             HateFactor = 1.0f,
         };
 
-        context.RegisterUnit(whiteMage);
+        context.RegisterPlayerSelectableUnit(whiteMage);
         context.RegisterUnit(goblin);
         context.RegisterUnit(goblinBoss);
         return (goblin, goblinBoss);
