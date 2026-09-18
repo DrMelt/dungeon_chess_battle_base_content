@@ -29,6 +29,6 @@ public partial class BaseContentBuffDisplay : Resource {
     [Export(PropertyHint.MultilineText)]
     public string BuffDescription { get; set; } = "";
 
-    /// <summary>产出注册用的 Buff 展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
+    /// <summary>产出注册用的 Buff 展示数据；未声明字段留空。</summary>
     public BuffDisplay ToDisplay() => new(new BuffTypeId(BuffTypeId), BuffName, BuffDescription, Icon);
 }

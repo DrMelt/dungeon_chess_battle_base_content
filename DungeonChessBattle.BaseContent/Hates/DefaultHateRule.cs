@@ -9,7 +9,7 @@ namespace DungeonChessBattle.BaseContent.Hates;
 /// 默认仇恨规则：经典威胁模型。
 /// 伤害：被打的单位把攻击者记进自己的仇恨表；治疗：被治疗者阵营的敌对存活单位把治疗者记进自己的仇恨表。
 /// 伤害与治疗产生的仇恨量以来源单位的仇恨倍率缩放，见 <see cref="IHateActorView.HateFactor"/>。
-/// 仇恨指令（嘲讽）：默认按请求原样落账，把目标仇恨抬到当前最高之上或按操作符修改。
+/// 仇恨指令，即嘲讽：默认按请求原样落账，把目标仇恨抬到当前最高之上或按操作符修改。
 /// 无状态实现，可被任意多个单位共享。
 /// </summary>
 public sealed class DefaultHateRule : IHateRule {

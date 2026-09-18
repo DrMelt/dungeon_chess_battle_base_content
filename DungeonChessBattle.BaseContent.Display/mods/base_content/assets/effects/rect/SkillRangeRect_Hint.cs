@@ -7,7 +7,7 @@ namespace DungeonChessBattle.BaseContent.Display;
 /// <summary>
 /// 矩形范围技能提示，通过着色器展示矩形区域范围。
 /// 提示场景根实现 <see cref="IRectRangeHint"/>，由宿主在选位置目标期间驱动；
-/// 宿主在挂载后一帧才首次调用，故 Init 执行时子节点 _Ready 已完成。
+/// 宿主在挂载后一帧首次调用，Init 执行时子节点 _Ready 已完成。
 /// </summary>
 public partial class SkillRangeRect_Hint : Node3D, IRectRangeHint {
     /// <summary>导出引用集合节点。</summary>

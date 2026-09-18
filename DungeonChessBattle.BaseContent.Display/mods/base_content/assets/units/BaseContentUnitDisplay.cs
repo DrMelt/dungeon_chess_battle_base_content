@@ -33,6 +33,6 @@ public partial class BaseContentUnitDisplay : Resource {
         get; set;
     }
 
-    /// <summary>产出注册用的单位展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
+    /// <summary>产出注册用的单位展示数据；未声明字段留空。</summary>
     public UnitDisplay ToDisplay() => new(new UnitConfigKey(ConfigKey), DisplayName, Description, Icon, ModelScene, null);
 }

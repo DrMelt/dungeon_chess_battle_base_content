@@ -4,8 +4,8 @@ using DungeonChessBattle.Battle.Mod.Shared;
 namespace DungeonChessBattle.BaseContent;
 
 /// <summary>
-/// 内容 mod 数据入口：内容与行为实现整体从主解决方案 Battle.Config.Registry 迁出，
-/// 经 <see cref="IModEntry"/> 在引导上下文上注册。
+/// 内容 mod 数据入口：本内容包的单位、技能、Buff 与副本定义经 <see cref="IModEntry"/>
+/// 在引导上下文上整体注册。
 /// </summary>
 public sealed class ModEntry : IModEntry {
     /// <summary>注册全部内容定义；注册次序见 <see cref="ContentRegistrar"/>。</summary>

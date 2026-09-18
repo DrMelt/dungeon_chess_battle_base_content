@@ -27,7 +27,7 @@ public partial class BaseContentDungeonDisplay : Resource {
         get; set;
     }
 
-    /// <summary>产出注册用的副本展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
+    /// <summary>产出注册用的副本展示数据；未声明字段留空。</summary>
     public DungeonDisplay ToDisplay() =>
         new(new DungeonKeyId(DungeonKey), DisplayName, Description, EnvScene);
 }

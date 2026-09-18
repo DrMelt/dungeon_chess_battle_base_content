@@ -33,7 +33,7 @@ public partial class BaseContentSkillDisplay : Resource {
         get; set;
     }
 
-    /// <summary>产出注册用的技能展示数据；未声明字段留空，由注册表沿用被覆盖者。</summary>
+    /// <summary>产出注册用的技能展示数据；未声明字段留空。</summary>
     public SkillDisplay ToDisplay() =>
         new(new SkillKeyId(SkillId), SkillName, SkillDescription, Icon, RangeHintScene);
 }

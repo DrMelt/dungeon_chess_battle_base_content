@@ -14,7 +14,7 @@ namespace DungeonChessBattle.BaseContent;
 using CampRelationEnum = CampRelation;
 
 /// <summary>
-/// 内容注册器：把原本内置于主解决方案 Battle.Config.Registry 的单位/技能/Buff/副本定义整体迁出，
+/// 内容注册器：注册本内容包的单位、技能、Buff 与副本定义，
 /// 行为实现随定义就地构造并注入，经 IModBootstrapContext 注册。注册次序即覆盖次序。
 /// </summary>
 public static class ContentRegistrar {

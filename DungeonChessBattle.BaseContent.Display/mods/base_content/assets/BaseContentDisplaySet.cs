@@ -5,10 +5,9 @@ using Godot;
 namespace DungeonChessBattle.BaseContent.Display;
 
 /// <summary>
-/// 展示资源总集合：<c>assets/display_set.tres</c> 的脚本类，汇总四类分类集合，
-/// 并对外提供把全部条目转为注册用展示数据的 <c>To*Displays</c>。
+/// 展示资源总集合：<c>assets/display_set.tres</c> 的脚本类，汇总四类分类集合。
 /// 每类都是数组，同一类可拆成多个集合文件而不必改 DisplayEntry；
-/// DisplayEntry 只装载本集合并逐条注册，不触碰分类集合与条目字段。
+/// DisplayEntry 只装载本集合，不触碰分类集合与条目字段。
 /// </summary>
 [GlobalClass]
 public partial class BaseContentDisplaySet : Resource {
